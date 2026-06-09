@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Skukuza Safari EV Planner Mobile Pro v2</title>
+  <style>
+    :root{--line:#d4c09b;--ink:#2e261d;--muted:#6d6659;--good:#2f7c4b;--warn:#ab7e09;--bad:#b84a3b;--blue:#3f7ca8;--blue2:#83b6dd;--green2:#76b56d;--shadow:0 10px 26px rgba(84,57,20,.12);--radius:20px}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f4e8,#efe4cf)}
+    .wrap{max-width:720px;margin:0 auto;padding:12px 12px 100px}.hero,.card,.summary,.chip-card,.stop-card{background:rgba(255,250,240,.96);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:18px;background:linear-gradient(135deg,#5f7d3d 0%,#7d5d38 62%,#4f3926 100%);color:#fff;position:sticky;top:10px;z-index:40;overflow:hidden}.hero:after{content:"🦁 🌿 🐘 🌾 🦒 🍃";position:absolute;right:14px;top:8px;opacity:.18;font-size:20px;letter-spacing:6px}
+    h1,h2,h3{margin:0 0 8px} h1{font-size:28px;line-height:1.08} h2{font-size:20px} h3{font-size:16px} p{margin:6px 0}.sub{color:rgba(255,255,255,.92)}
+    .hero-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.chip-card{padding:10px 12px;background:rgba(255,250,241,.95)} .chip-card .k,.mini-label,.sum .k,.soc .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}.chip-card .v{font-size:15px;font-weight:900;line-height:1.24;margin-top:4px}
+    .sticky-summary{position:sticky;top:172px;z-index:35;margin-top:10px}.summary-bar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;background:rgba(255,250,241,.92);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 6px 18px rgba(84,57,20,.08)}
+    .sum{background:#fff;border:1px solid #e7dbc2;border-radius:14px;padding:8px;text-align:center}.sum .v{font-size:18px;font-weight:900;margin-top:4px}
+    .card{padding:14px;margin-top:12px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.hint,.tiny{font-size:12px;color:var(--muted)}
+    .grid-2{display:grid;grid-template-columns:1fr 94px;gap:10px;align-items:center}.grid-2.equal{grid-template-columns:1fr 1fr}.group{margin-top:10px}
+    input[type=number],select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fffdf8;color:var(--ink)} input[type=range]{width:100%}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px} button{border:1px solid var(--line);background:#fffaf1;color:var(--ink);padding:10px 12px;border-radius:12px;font-weight:900;cursor:pointer}.tabs{display:flex;gap:8px;margin-top:8px} button.tab{flex:1} button.active.ds{background:#eef8ef;color:var(--good);border-color:#abd3b6} button.active.seal{background:#eef5fb;color:var(--blue);border-color:#b7d1e6}
+    .toggle-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:#fffdf8;font-size:13px}.toggle input{accent-color:var(--good)}
+    .stopbox{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fffdf8;margin-top:10px}.stopbox.off{opacity:.56}
+    .status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900}.ok{background:#edf8ef;color:var(--good)}.near{background:#fff3d6;color:var(--warn)}.bad{background:#ffe7e1;color:var(--bad)}
+    .cons-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.cons-card{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px}.cons-card .title{font-weight:900;margin-bottom:6px}.cons-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-top:4px}
+    .map-shell{overflow-x:auto;padding-bottom:6px}.map{min-width:900px}
+    details{margin-top:6px} details > summary{list-style:none;cursor:pointer;font-weight:900;padding:2px 0} details > summary::-webkit-details-marker{display:none}
+    .stop-card{padding:12px;border:1px dashed var(--line);background:#fffdf8;margin-top:10px}.pair-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.pair-chips{display:flex;gap:6px;flex-wrap:wrap}.pair-chip{padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:900;background:#fff}.pair-chip.ds{color:var(--good)} .pair-chip.seal{color:var(--blue)} .stop-title{font-weight:900}
+    .soc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.soc{border:1px solid #e7dbc2;border-radius:12px;background:#fff;padding:8px}.soc .v{font-size:18px;font-weight:900;margin-top:4px}.meter{height:10px;background:#e4d9c2;border-radius:999px;overflow:hidden;margin-top:8px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--good),var(--green2))}.bar.seal{background:linear-gradient(90deg,var(--blue),var(--blue2))}
+    .table-wrap{overflow:auto;margin-top:10px} table{width:100%;border-collapse:collapse;font-size:13px} th,td{padding:10px 8px;border-bottom:1px solid #eadfc9;text-align:left;vertical-align:top} th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .jumpbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;background:rgba(48,40,28,.92);border:1px solid rgba(255,255,255,.08);color:#fff;border-radius:18px;padding:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;backdrop-filter:blur(6px)} .jumpbar a{display:block;text-align:center;text-decoration:none;color:#fff;background:rgba(255,255,255,.08);padding:10px;border-radius:12px;font-size:12px;font-weight:900}
+    @media (max-width:420px){.hero-chips,.cons-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero" id="top">
+    <h1>Skukuza Safari EV Planner</h1>
+    <p class="sub">Mobile Pro version with <strong>all features kept</strong>. You can now also see the <strong>consumption model being used for each vehicle</strong>.</p>
+    <div class="hero-chips">
+      <div class="chip-card"><div class="k">Departure</div><div class="v">26 Jun 2026 • 04:30</div></div>
+      <div class="chip-card"><div class="k">Core route</div><div class="v">Meyersdal → Alzu → Millys → Riverside → Malelane → Skukuza</div></div>
+      <div class="chip-card"><div class="k">Dolphin Surf model</div><div class="v">Eco mode • 14.0 highway • 10.0 park</div></div>
+      <div class="chip-card"><div class="k">Seal model</div><div class="v">17.2 highway • 12.0 park</div></div>
+    </div>
+  </section>
+
+  <div class="sticky-summary">
+    <div class="summary-bar">
+      <div class="sum"><div class="k">Dolphin Surf</div><div class="v" id="dsFinal">--</div></div>
+      <div class="sum"><div class="k">Seal</div><div class="v" id="sealFinal">--</div></div>
+      <div class="sum"><div class="k">ETA</div><div class="v" id="eta">--</div></div>
+    </div>
+  </div>
+
+  <section class="card" id="controlsCard">
+    <div class="section-head"><h2>Planner controls</h2><span class="hint">All options kept</span></div>
+    <div class="group">
+      <div class="mini-label">Highway speed target</div>
+      <div class="grid-2"><input id="speedR" type="range" min="80" max="100" step="1" value="90"><input id="speedN" type="number" min="80" max="100" step="1" value="90"></div>
+      <div class="hint">Used for the N12 / N4 and Riverside → Malelane. Park speed is fixed at 35 km/h average.</div>
+    </div>
+    <div class="group grid-2 equal">
+      <div><div class="mini-label">Weather / road factor</div><select id="weather"><option value="0.00">Perfect calm day</option><option value="0.04" selected>Cold winter morning</option><option value="0.08">Cold + mild headwind</option><option value="0.12">Tough day / stronger headwind</option></select></div>
+      <div><div class="mini-label">Target SOC at Skukuza</div><input id="targetN" type="number" min="30" max="70" step="1" value="50"></div>
+    </div>
+    <div class="group"><div class="mini-label">Target slider</div><input id="targetR" type="range" min="30" max="70" step="1" value="50"></div>
+    <div class="btn-row"><button id="balanced">Balanced</button><button id="minStops">Min hassle</button><button id="safety">Safety first</button></div>
+  </section>
+
+  <section class="card flat" id="consCard">
+    <div class="section-head"><h2>Consumption model used</h2><span class="hint">Live with current speed and weather</span></div>
+    <div class="cons-grid">
+      <div class="cons-card">
+        <div class="title">Dolphin Surf</div>
+        <div class="cons-row"><span>Base highway @ 90</span><strong id="dsBaseH">14.0 kWh/100 km</strong></div>
+        <div class="cons-row"><span>Base park</span><strong id="dsBaseP">10.0 kWh/100 km</strong></div>
+        <div class="cons-row"><span>Current early highway</span><strong id="dsCurrentEarly">--</strong></div>
+        <div class="cons-row"><span>Current mid highway</span><strong id="dsCurrentMid">--</strong></div>
+        <div class="cons-row"><span>Current late highway</span><strong id="dsCurrentLate">--</strong></div>
+      </div>
+      <div class="cons-card">
+        <div class="title">Seal AWD</div>
+        <div class="cons-row"><span>Base highway @ 90</span><strong id="sealBaseH">17.2 kWh/100 km</strong></div>
+        <div class="cons-row"><span>Base park</span><strong id="sealBaseP">12.0 kWh/100 km</strong></div>
+        <div class="cons-row"><span>Current early highway</span><strong id="sealCurrentEarly">--</strong></div>
+        <div class="cons-row"><span>Current mid highway</span><strong id="sealCurrentMid">--</strong></div>
+        <div class="cons-row"><span>Current late highway</span><strong id="sealCurrentLate">--</strong></div>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:10px">These figures update when you change <strong>speed</strong> or <strong>weather</strong>. Park consumption stays fixed in this planner.</div>
+  </section>
+
+  <section class="card" id="chargeCard">
+    <div class="section-head"><h2>Charge stops</h2><span class="hint">Tabs + stop toggles + charge-to %</span></div>
+    <div class="tabs"><button class="tab active ds" data-tab="ds">Dolphin Surf</button><button class="tab" data-tab="seal">Seal AWD</button></div>
+    <div id="tabControls"></div>
+  </section>
+
+  <section class="card flat" id="summaryCard">
+    <div class="section-head"><h2>Trip summary</h2><span class="hint">Live target check</span></div>
+    <div class="soc-grid">
+      <div class="soc"><div class="k">Dolphin Surf @ Skukuza</div><div class="v" id="dsFinalBig">--</div><div id="dsStatus"></div></div>
+      <div class="soc"><div class="k">Seal @ Skukuza</div><div class="v" id="sealFinalBig">--</div><div id="sealStatus"></div></div>
+      <div class="soc"><div class="k">Dolphin Surf min Riverside dep</div><div class="v" id="dsNeed">--</div><div class="hint">Needed to hit target</div></div>
+    </div>
+  </section>
+
+  <section class="card" id="mapCard">
+    <div class="section-head"><h2>Safari route map</h2><div class="pair-chips"><span class="pair-chip ds">Dolphin Surf</span><span class="pair-chip seal">Seal AWD</span></div></div>
+    <div class="hint">Map stays in the mobile version too. Scroll sideways if needed.</div>
+    <div class="map-shell"><svg id="map" class="map" viewBox="0 0 980 270" width="100%" height="270"></svg></div>
+  </section>
+
+  <section class="card" id="recsCard">
+    <div class="section-head"><h2>Recommendations</h2><span class="hint">Live and route-aware</span></div>
+    <ul id="recs"></ul>
+  </section>
+
+  <section class="card" id="boardsCard">
+    <div class="section-head"><h2>Route boards</h2><span class="hint">Both cars</span></div>
+    <details open><summary>Dolphin Surf route board</summary><div id="dsRoute"></div></details>
+    <details style="margin-top:10px" open><summary>Seal AWD route board</summary><div id="sealRoute"></div></details>
+  </section>
+
+  <section class="card" id="tableCard">
+    <div class="section-head"><h2>Detailed stop table</h2><span class="hint">Arrival and departure fixed</span></div>
+    <div class="table-wrap"><table><thead><tr><th>Car</th><th>Stop</th><th>Arrival</th><th>Charge to</th><th>Charge time</th><th>Depart</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+</div>
+
+<div class="jumpbar"><a href="#controlsCard">Controls</a><a href="#consCard">Consumption</a><a href="#boardsCard">Boards</a></div>
+
+<script>
+const route=[{id:'alzu',name:'Alzu',dist:202.0,road:'early',charger:80},{id:'millys',name:'Millys',dist:45.0,road:'mid',charger:80},{id:'riverside',name:'Riverside',dist:101.8,road:'late',charger:150},{id:'malelane',name:'Malelane Gate',dist:67.3,road:'late',charger:null},{id:'skukuza',name:'Skukuza',dist:63.6,road:'park',charger:null}];
+const cumulative={start:0}; let running=0; for(const r of route){running+=r.dist; cumulative[r.id]=running;} const total=cumulative.skukuza; const xForKm=km=>70+(km/total)*835;
+const points={start:{x:xForKm(0),y:155},alzu:{x:xForKm(cumulative.alzu),y:95},millys:{x:xForKm(cumulative.millys),y:125},riverside:{x:xForKm(cumulative.riverside),y:105},malelane:{x:xForKm(cumulative.malelane),y:135},skukuza:{x:xForKm(cumulative.skukuza),y:78}};
+const cars={ds:{label:'Dolphin Surf',full:'BYD Dolphin Surf Dynamic',battery:38.8,consH:14.0,consP:10.0,dc:{alzu:40,millys:40,riverside:40},charge:{alzu:85,millys:88,riverside:93},use:{alzu:true,millys:true,riverside:true},taper80:0.72,taper90:0.48},seal:{label:'Seal AWD',full:'BYD Seal AWD Performance',battery:82.56,consH:17.2,consP:12.0,dc:{alzu:80,millys:80,riverside:150},charge:{alzu:78,millys:78,riverside:78},use:{alzu:false,millys:true,riverside:true},taper80:0.72,taper90:0.50}};
+let active='ds'; const $=id=>document.getElementById(id);
+function sync(a,b){$(a).addEventListener('input',e=>{$(b).value=e.target.value; render()});$(b).addEventListener('input',e=>{$(a).value=e.target.value; render()})}
+sync('speedR','speedN'); sync('targetR','targetN'); $('weather').addEventListener('change',render);
+function clamp(v,min,max){return Math.max(min,Math.min(max,v))} function one(n){return `${n.toFixed(1)}%`} function minsToTime(m){m=Math.round(m);const d=Math.floor(m/(24*60));const r=m%(24*60);const h=String(Math.floor(r/60)).padStart(2,'0');const mm=String(Math.floor(r%60)).padStart(2,'0');return `${d>0?`+${d}d `:''}${h}:${mm}`}
+function highway(base,speed,weather,leg){const d=speed-90;let c=base*(1+d*0.017+Math.max(0,d-5)*0.006);if(speed<90)c=base*(1+d*0.013);const mult=leg==='early'?1+weather:leg==='mid'?1+weather*0.75:1+weather*0.45;return c*mult}
+function chargeMinutes(car,stopId,startSoc,endSoc){if(endSoc<=startSoc)return 0; const base=Math.min(car.dc[stopId]||0, route.find(r=>r.id===stopId)?.charger||0); let weighted=0,total=0; [[startSoc,Math.min(endSoc,80),1],[Math.max(startSoc,80),Math.min(endSoc,90),car.taper80],[Math.max(startSoc,90),endSoc,car.taper90]].forEach(([a,b,m])=>{if(b>a){const d=b-a;weighted+=d*base*m;total+=d}}); const p=total?weighted/total:base; if(!p)return 0; return (((endSoc-startSoc)/100)*car.battery)/p*60+6; }
+function simulate(key){const car=cars[key], speed=+$('speedN').value, weather=+$('weather').value, target=+$('targetN').value; let soc=100, mins=270; const rows=[]; const finalEnergy=(67.3*highway(car.consH,speed,weather,'late')/100)+(63.6*car.consP/100); const needRiv=clamp(target + (finalEnergy/car.battery*100),0,100); for(const leg of route){const used=(leg.road==='park'?leg.dist*car.consP/100:leg.dist*highway(car.consH,speed,weather,leg.road)/100); soc-=used/car.battery*100; mins+=(leg.road==='park'?leg.dist/35:leg.dist/speed)*60; const arrival=soc; let depart=arrival, charge=0; if(leg.charger && car.use[leg.id]){ let to=+car.charge[leg.id]; if(leg.id==='riverside'&&key==='ds') to=Math.max(to,needRiv); to=clamp(to,Math.ceil(Math.max(arrival,0)),100); charge=chargeMinutes(car,leg.id,Math.max(arrival,0),to); mins+=charge; depart=to; soc=depart; } rows.push({id:leg.id,name:leg.name,arrival,depart,charge,time:minsToTime(mins),dist:leg.dist,used}); } return {rows,final:rows.find(r=>r.id==='skukuza').arrival,need:needRiv,eta:rows[rows.length-1].time}; }
+function pill(val,target){return val>=target?'<span class="status ok">On target</span>':val>=target-4?'<span class="status near">Close</span>':'<span class="status bad">Needs help</span>'}
+function updateConsumption(){const speed=+$('speedN').value, weather=+$('weather').value; const fmt=v=>`${v.toFixed(1)} kWh/100 km`; $('dsCurrentEarly').textContent=fmt(highway(cars.ds.consH,speed,weather,'early')); $('dsCurrentMid').textContent=fmt(highway(cars.ds.consH,speed,weather,'mid')); $('dsCurrentLate').textContent=fmt(highway(cars.ds.consH,speed,weather,'late')); $('sealCurrentEarly').textContent=fmt(highway(cars.seal.consH,speed,weather,'early')); $('sealCurrentMid').textContent=fmt(highway(cars.seal.consH,speed,weather,'mid')); $('sealCurrentLate').textContent=fmt(highway(cars.seal.consH,speed,weather,'late')); }
+function tabMarkup(){const car=cars[active]; return `<div class="group"><div class="mini-label">Use stops for ${car.full}</div><div class="toggle-row">${['alzu','millys','riverside'].map(s=>`<label class="toggle"><input type="checkbox" data-use="${s}" ${car.use[s]?'checked':''} ${s==='riverside'?'disabled':''}> ${s[0].toUpperCase()+s.slice(1)}</label>`).join('')}</div><div class="hint">Riverside stays on because it is the final balancing stop.</div></div>${['alzu','millys','riverside'].map(s=>{const on=car.use[s]||s==='riverside'; const label=s==='alzu'?'Alzu Petroport':s==='millys'?'Millys':'Riverside Mall'; return `<div class="stopbox ${on?'':'off'}"><div class="mini-label">${label} charge to</div><div class="grid-2"><input type="range" min="40" max="100" step="1" value="${car.charge[s]}" data-r="${s}" ${on?'':'disabled'}><input type="number" min="40" max="100" step="1" value="${car.charge[s]}" data-n="${s}" ${on?'':'disabled'}></div></div>`;}).join('')}`; }
+function bindTabControls(){ $('tabControls').innerHTML=tabMarkup(); document.querySelectorAll('[data-use]').forEach(x=>x.addEventListener('change',e=>{cars[active].use[e.target.dataset.use]=e.target.checked; bindTabControls(); render();})); document.querySelectorAll('[data-r]').forEach(x=>x.addEventListener('input',e=>{const s=e.target.dataset.r; cars[active].charge[s]=+e.target.value; $('tabControls').querySelector(`[data-n="${s}"]`).value=e.target.value; render();})); document.querySelectorAll('[data-n]').forEach(x=>x.addEventListener('input',e=>{const s=e.target.dataset.n; cars[active].charge[s]=+e.target.value; $('tabControls').querySelector(`[data-r="${s}"]`).value=e.target.value; render();})); document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>{active=btn.dataset.tab; document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active','ds','seal')); btn.classList.add('active',active); bindTabControls();}); }
+function stopCard(r,key){ return `<div class="stop-card"><div class="pair-head"><div><div class="stop-title">${r.name}</div><div class="tiny">${r.dist.toFixed(1)} km from previous • ${r.used.toFixed(1)} kWh used</div></div><div class="pair-chips"><span class="pair-chip ${key==='ds'?'ds':'seal'}">${key==='ds'?'Dolphin Surf':'Seal AWD'}</span></div></div><div class="soc-grid"><div class="soc"><div class="k">Arrival SOC</div><div class="v">${one(r.arrival)}</div></div><div class="soc"><div class="k">Charge time</div><div class="v">${r.charge?Math.round(r.charge)+' min':'—'}</div></div><div class="soc"><div class="k">Departure SOC</div><div class="v">${one(r.depart)}</div></div></div><div class="meter"><div class="bar ${key==='seal'?'seal':''}" style="width:${Math.max(0,Math.min(100,r.depart))}%"></div></div><div class="tiny">Depart time: ${r.time}</div></div>`; }
+function renderMap(ds,seal){ const svg=$('map'); svg.innerHTML=''; svg.innerHTML+=`<rect x="0" y="0" width="980" height="270" rx="22" fill="#f7f3e7"></rect><path d="M0 230 C120 180,200 180,300 225 S500 250,650 210 S840 165,980 225 L980 270 L0 270 Z" fill="#d8c696"></path><path d="M0 210 C160 155,265 160,390 205 S640 248,820 198 S900 170,980 205 L980 270 L0 270 Z" fill="#e7d9b0"></path>`; svg.innerHTML+=`<path d="M${points.start.x} ${points.start.y} C160 100,220 84,${points.alzu.x} ${points.alzu.y} S350 142,${points.millys.x} ${points.millys.y} S510 90,${points.riverside.x} ${points.riverside.y} S700 160,${points.malelane.x} ${points.malelane.y} S860 58,${points.skukuza.x} ${points.skukuza.y}" fill="none" stroke="#8a6a44" stroke-width="12" stroke-linecap="round"></path><path d="M${points.start.x} ${points.start.y} C160 100,220 84,${points.alzu.x} ${points.alzu.y} S350 142,${points.millys.x} ${points.millys.y} S510 90,${points.riverside.x} ${points.riverside.y} S700 160,${points.malelane.x} ${points.malelane.y} S860 58,${points.skukuza.x} ${points.skukuza.y}" fill="none" stroke="#d9c18f" stroke-width="5" stroke-linecap="round"></path>`;
+  const nodes=['start','alzu','millys','riverside','malelane','skukuza']; const labels={start:'Meyersdal',alzu:'Alzu',millys:'Millys',riverside:'Riverside',malelane:'Malelane Gate',skukuza:'Skukuza'};
+  nodes.forEach(n=>{const p=points[n]; svg.innerHTML+=`<circle cx="${p.x}" cy="${p.y}" r="16" fill="#fffaf1" stroke="#7a5e3d" stroke-width="3"></circle><circle cx="${p.x}" cy="${p.y}" r="7" fill="${['alzu','millys','riverside'].includes(n)?'#729149':n==='skukuza'?'#3f7ca8':'#b8925c'}"></circle><text x="${p.x}" y="${p.y+36}" text-anchor="middle" font-size="12" font-weight="800" fill="#4f3d29">${labels[n]}</text>`;});
+  const bubble=(x,y,val,color,stroke,top)=>`<g><rect x="${x-22}" y="${y+(top?-40:14)}" width="44" height="24" rx="12" fill="${color}" stroke="${stroke}"></rect><text x="${x}" y="${y+(top?-24:30)}" text-anchor="middle" font-size="11" font-weight="900" fill="${stroke}">${Math.round(val)}%</text></g>`;
+  ds.rows.forEach(r=>{const p=points[r.id]; if(p) svg.innerHTML+=bubble(p.x-18,p.y,r.depart,'#edf8ef','#2f7c4b',true);});
+  seal.rows.forEach(r=>{const p=points[r.id]; if(p) svg.innerHTML+=bubble(p.x+18,p.y,r.depart,'#eef5fb','#3f7ca8',false);});
+}
+function render(){ const ds=simulate('ds'), seal=simulate('seal'), target=+$('targetN').value; $('dsFinal').textContent=one(ds.final); $('sealFinal').textContent=one(seal.final); $('eta').textContent=ds.eta>seal.eta?ds.eta:seal.eta; $('dsFinalBig').textContent=one(ds.final); $('sealFinalBig').textContent=one(seal.final); $('dsNeed').textContent=one(ds.need); $('dsStatus').innerHTML=pill(ds.final,target); $('sealStatus').innerHTML=pill(seal.final,target); $('recs').innerHTML=[ds.final<target?`<li>Dolphin Surf misses target. Raise Riverside to at least <strong>${one(ds.need)}</strong> or trim speed.</li>`:`<li>Dolphin Surf is landing on target. Minimum Riverside departure currently works out to <strong>${one(ds.need)}</strong>.</li>`, `<li>Arrival SOC and departure SOC are now calculated separately, so the charge stops no longer show the same values.</li>`, `<li>The consumption section above shows the exact model currently being used for both vehicles.</li>`].join(''); $('dsRoute').innerHTML=ds.rows.map(r=>stopCard(r,'ds')).join(''); $('sealRoute').innerHTML=seal.rows.map(r=>stopCard(r,'seal')).join(''); const rows=[]; [['ds',ds],['seal',seal]].forEach(([k,obj])=>{const label=k==='ds'?'Dolphin Surf':'Seal AWD'; obj.rows.forEach(r=>{if(['alzu','millys','riverside'].includes(r.id)) rows.push(`<tr><td>${label}</td><td>${r.name}</td><td>${one(r.arrival)}</td><td>${one(r.depart)}</td><td>${r.charge?Math.round(r.charge)+' min':'—'}</td><td>${r.time}</td></tr>`);});}); $('rows').innerHTML=rows.join(''); updateConsumption(); renderMap(ds,seal); }
+$('balanced').onclick=()=>{cars.ds.use={alzu:true,millys:true,riverside:true};cars.ds.charge={alzu:85,millys:88,riverside:93};cars.seal.use={alzu:false,millys:true,riverside:true};cars.seal.charge={alzu:78,millys:78,riverside:78}; $('speedR').value=$('speedN').value=90; $('weather').value='0.04'; $('targetR').value=$('targetN').value=50; bindTabControls(); render();};
+$('minStops').onclick=()=>{cars.ds.use={alzu:true,millys:false,riverside:true};cars.ds.charge={alzu:86,millys:88,riverside:94};cars.seal.use={alzu:false,millys:true,riverside:true};cars.seal.charge={alzu:78,millys:76,riverside:76}; $('speedR').value=$('speedN').value=89; $('weather').value='0.04'; $('targetR').value=$('targetN').value=50; bindTabControls(); render();};
+$('safety').onclick=()=>{cars.ds.use={alzu:true,millys:true,riverside:true};cars.ds.charge={alzu:88,millys:90,riverside:95};cars.seal.use={alzu:true,millys:true,riverside:true};cars.seal.charge={alzu:78,millys:80,riverside:80}; $('speedR').value=$('speedN').value=88; $('weather').value='0.08'; $('targetR').value=$('targetN').value=50; bindTabControls(); render();};
+bindTabControls(); render();
+</script>
+</body>
+</html>
